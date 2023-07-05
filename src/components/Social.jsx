@@ -12,7 +12,7 @@ const styles = {
 };
 
 function Social() {
-  const theme = useContext(ThemeContext);
+  const { socialIconBgColor } = useContext(ThemeContext);
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -26,13 +26,13 @@ function Social() {
 
   return (
     <div className="social">
-      {data ? data.social.map((social) => (
+      {data ? data.social.map(({ network, href }) => (
         <SocialIcon
-          key={social.network}
+          key={network}
           style={styles.iconStyle}
-          url={social.href}
-          network={social.network}
-          bgColor={theme.socialIconBgColor}
+          url={href}
+          network={network}
+          bgColor={socialIconBgColor || undefined}
           target="_blank"
           rel="noopener"
         />

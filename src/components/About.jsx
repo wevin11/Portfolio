@@ -19,9 +19,12 @@ const styles = {
   introImageContainer: {
     margin: 10,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'right',
     display: 'flex',
+    width: 200,
+    height: 450,
   },
+
 };
 
 function About(props) {

@@ -33,50 +33,69 @@ const styles = {
   },
 };
 
-const ProjectCard = (props) => {
-  const theme = useContext(ThemeContext);
+const ProjectCard = ({ project }) => {
+  const {
+    cardBackground,
+    cardBorderColor,
+    bsSecondaryVariant,
+    cardFooterBackground,
+    bsPrimaryVariant,
+  } = useContext(ThemeContext);
   const parseBodyText = (text) => <ReactMarkdown children={text} />;
 
-  const { project } = props;
+  if (!project) {
+    return null; // Render nothing if project is null
+  }
+
+  const {
+    image,
+    title,
+    bodyText,
+    links,
+    tags,
+  } = project;
 
   return (
     <Col>
       <Card
         style={{
           ...styles.cardStyle,
-          backgroundColor: theme.cardBackground,
-          borderColor: theme.cardBorderColor,
+          backgroundColor: cardBackground,
+          borderColor: cardBorderColor,
         }}
-        text={theme.bsSecondaryVariant}
+        text={bsSecondaryVariant}
       >
-        <Card.Img variant="top" src={project?.image} />
+        {image && <Card.Img variant="top" src={image} />}
         <Card.Body>
-          <Card.Title style={styles.cardTitleStyle}>{project.title}</Card.Title>
+          <Card.Title style={styles.cardTitleStyle}>{title}</Card.Title>
           <Card.Text style={styles.cardTextStyle}>
-            {parseBodyText(project.bodyText)}
+            {parseBodyText(bodyText)}
           </Card.Text>
         </Card.Body>
 
-        <Card.Body>
-          {project?.links?.map((link) => (
-            <Button
-              key={link.href}
-              style={styles.buttonStyle}
-              variant={'outline-' + theme.bsSecondaryVariant}
-              onClick={() => window.open(link.href, '_blank')}
-            >
-              {link.text}
-            </Button>
-          ))}
-        </Card.Body>
-        {project.tags && (
-          <Card.Footer style={{ backgroundColor: theme.cardFooterBackground }}>
-            {project.tags.map((tag) => (
+        {links && (
+          <Card.Body>
+            {links.map(({ href, text }) => (
+              <Button
+                key={href}
+                style={styles.buttonStyle}
+                variant={`outline-${bsSecondaryVariant}`}
+                onClick={() => window.open(href, '_blank')}
+              >
+                {text}
+              </Button>
+            ))}
+          </Card.Body>
+        )}
+
+        {tags && (
+          <Card.Footer style={{ backgroundColor: cardFooterBackground }}>
+            {tags.map((tag) => (
               <Badge
                 key={tag}
                 pill
-                bg={theme.bsSecondaryVariant}
-                text={theme.bsPrimaryVariant}
+                bg={bsSecondaryVariant}
+                text={bsPrimaryVariant}
                 style={styles.badgeStyle}
               >
                 {tag}
@@ -94,10 +113,12 @@ ProjectCard.propTypes = {
     title: PropTypes.string.isRequired,
     bodyText: PropTypes.string.isRequired,
     image: PropTypes.string,
-    links: PropTypes.arrayOf(PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      href: PropTypes.string.isRequired,
-    })),
+    links: PropTypes.arrayOf(
+      PropTypes.shape({
+        text: PropTypes.string.isRequired,
+        href: PropTypes.string.isRequired,
+      }),
+    ),
     tags: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };

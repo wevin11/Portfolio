@@ -44,63 +44,63 @@ function Experience(props) {
       .catch((err) => err);
   }, []);
 
+  const { accentColor, color, timelineLineColor } = theme;
+
   return (
     <>
       <Header title={header} />
 
-      {data
-        ? (
-          <div className="section-content-container">
-            <Container>
-              <Timeline
-                lineColor={theme.timelineLineColor}
-              >
-                {data.map((item) => (
-                  <Fade>
-                    <TimelineItem
-                      key={item.title + item.dateText}
-                      dateText={item.dateText}
-                      dateInnerStyle={{ background: theme.accentColor }}
-                      style={styles.itemStyle}
-                      bodyContainerStyle={{ color: theme.color }}
-                    >
-                      <h2 className="item-title">
-                        {item.title}
-                      </h2>
-                      <div style={styles.subtitleContainerStyle}>
-                        <h4 style={{ ...styles.subtitleStyle, color: theme.accentColor }}>
-                          {item.subtitle}
-                        </h4>
-                        {item.workType && (
+      {data ? (
+        <div className="section-content-container">
+          <Container>
+            <Timeline
+              lineColor={timelineLineColor}
+            >
+              {data.map((item) => (
+                <Fade key={item.title + item.dateText}>
+                  <TimelineItem
+                    dateText={item.dateText}
+                    dateInnerStyle={{ background: accentColor }}
+                    style={styles.itemStyle}
+                    bodyContainerStyle={{ color }}
+                  >
+                    <h2 className="item-title">
+                      {item.title}
+                    </h2>
+                    <div style={styles.subtitleContainerStyle}>
+                      <h4 style={{ ...styles.subtitleStyle, color: accentColor }}>
+                        {item.subtitle}
+                      </h4>
+                      {item.workType && (
                         <h5 style={styles.inlineChild}>
-                    &nbsp;·
+                          &nbsp;·
                           {' '}
                           {item.workType}
                         </h5>
-                        )}
-                      </div>
-                      <ul style={styles.ulStyle}>
-                        {item.workDescription.map((point) => (
-                          <div key={point}>
-                            <li>
-                              <ReactMarkdown
-                                children={point}
-                                components={{
-                                  p: 'span',
-                                }}
-                              />
-                            </li>
-                            <br />
-                          </div>
-                        ))}
-                      </ul>
-                    </TimelineItem>
-                  </Fade>
-                ))}
-              </Timeline>
-            </Container>
-          </div>
-        ) : <FallbackSpinner /> }
+                      )}
+                    </div>
+                    <ul style={styles.ulStyle}>
+                      {item.workDescription.map((point) => (
+                        <div key={point}>
+                          <li>
+                            <ReactMarkdown
+                              children={point}
+                              components={{
+                                p: 'span',
+                              }}
+                            />
+                          </li>
+                          <br />
+                        </div>
+                      ))}
+                    </ul>
+                  </TimelineItem>
+                </Fade>
+              ))}
+            </Timeline>
+          </Container>
+        </div>
+      ) : <FallbackSpinner />}
     </>
   );
 }

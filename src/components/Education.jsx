@@ -39,6 +39,9 @@ function Education(props) {
     }
   }, []);
 
+  const { accentColor, chronoTheme } = theme;
+  const { cardBgColor, cardForeColor, titleColor } = chronoTheme;
+
   return (
     <>
       <Header title={header} />
@@ -54,11 +57,11 @@ function Education(props) {
                 cardHeight={250}
                 mode={mode}
                 theme={{
-                  primary: theme.accentColor,
-                  secondary: theme.accentColor,
-                  cardBgColor: theme.chronoTheme.cardBgColor,
-                  cardForeColor: theme.chronoTheme.cardForeColor,
-                  titleColor: theme.chronoTheme.titleColor,
+                  primary: accentColor,
+                  secondary: accentColor,
+                  cardBgColor,
+                  cardForeColor,
+                  titleColor,
                 }}
               >
                 <div className="chrono-icons">
